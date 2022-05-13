@@ -1,0 +1,237 @@
+C51 COMPILER V9.01   RD_CONTROL                                                            05/13/2022 11:00:31 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE RD_CONTROL
+OBJECT MODULE PLACED IN .\OBJ\rd_control.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE ..\code\rd_control.c BROWSE DEBUG OBJECTEXTEND PRINT(.\LST\rd_control.ls
+                    -t) OBJECT(.\OBJ\rd_control.obj)
+
+line level    source
+
+   1          
+   2          #include "rd_control.h"
+   3          
+   4          xdata lightControlTypeDef rdLight1;
+   5          xdata lightControlTypeDef rdLight2;
+   6          xdata lightControlTypeDef rdLight3;
+   7          xdata lightControlTypeDef rdLight4;
+   8          xdata lightControlTypeDef rdLight5;
+   9          extern unsigned long timeLine;
+  10          
+  11          void initShow(){
+  12   1              controlAllLight(1);
+  13   1              DelayXms(1000);
+  14   1              controlAllLight(0);
+  15   1              DelayXms(1000);
+  16   1              controlAllLight(1);
+  17   1              DelayXms(1000);
+  18   1              controlAllLight(0);
+  19   1              DelayXms(1000);
+  20   1              controlAllLight(1);
+  21   1              DelayXms(1000);
+  22   1              controlAllLight(0);
+  23   1              DelayXms(1000);
+  24   1              controlAllLight(1);
+  25   1              rdLight1.lightOnFlag = lightOn;
+  26   1              rdLight2.lightOnFlag = lightOn;
+  27   1              rdLight3.lightOnFlag = lightOn;
+  28   1              rdLight4.lightOnFlag = lightOn;
+  29   1              rdLight5.lightOnFlag = lightOn;
+  30   1              lightStartTick();
+  31   1      }
+  32          
+  33          void controlAllLight(unsigned char mode){
+  34   1              MODE1_LIGHT_PIN = mode;
+  35   1              MODE2_LIGHT_PIN = mode;
+  36   1              MODE3_LIGHT_PIN = mode;
+  37   1              MODE4_LIGHT_PIN = mode;
+  38   1              MODE5_LIGHT_PIN = mode;
+  39   1      }
+  40          
+  41          void lightStartTick(){
+  42   1              rdLight1.tickTime = systemTick();
+  43   1              rdLight2.tickTime = systemTick();
+  44   1              rdLight3.tickTime = systemTick();
+  45   1              rdLight4.tickTime = systemTick();
+  46   1              rdLight5.tickTime = systemTick();
+  47   1      }
+  48          
+  49          void light1Control(){
+  50   1              if(rdLight1.lightOnFlag == lightOn){
+  51   2                      if(systemTick() - rdLight1.tickTime <= MODE1_STATE_TIME_1){
+  52   3                              MODE1_LIGHT_PIN = 1;
+  53   3                      }
+  54   2                      else if(systemTick() - rdLight1.tickTime > MODE1_STATE_TIME_1){
+C51 COMPILER V9.01   RD_CONTROL                                                            05/13/2022 11:00:31 PAGE 2   
+
+  55   3                              MODE1_LIGHT_PIN = 0;
+  56   3                              rdLight1.lightOnFlag = lightOff;
+  57   3                      }
+  58   2              }
+  59   1      }
+  60          
+  61          void light2Control(){
+  62   1              if(rdLight2.lightOnFlag == lightOn){
+  63   2                      if(systemTick() - rdLight2.tickTime <= MODE2_STATE_TIME_1){
+  64   3                              MODE2_LIGHT_PIN = 1;
+  65   3                      }
+  66   2                      else if(systemTick() - rdLight2.tickTime <= MODE2_STATE_TIME_2){
+  67   3                              MODE2_LIGHT_PIN = 0;
+  68   3                      }
+  69   2                      else if(systemTick() - rdLight2.tickTime <= MODE2_STATE_TIME_3){
+  70   3                              MODE2_LIGHT_PIN = 1;
+  71   3                      }
+  72   2                      else if(systemTick() - rdLight2.tickTime > MODE2_STATE_TIME_3){
+  73   3                              MODE2_LIGHT_PIN = 0;
+  74   3                              rdLight2.lightOnFlag = lightOff;
+  75   3                      }
+  76   2              }                       
+  77   1      }
+  78          
+  79          
+  80          void light3Control(){
+  81   1              if(rdLight3.lightOnFlag == lightOn){
+  82   2                      if(systemTick() - rdLight3.tickTime <= MODE3_STATE_TIME_1){
+  83   3                              MODE3_LIGHT_PIN = 1;
+  84   3                      }
+  85   2                      else if(systemTick() - rdLight3.tickTime > MODE3_STATE_TIME_1){
+  86   3                              MODE3_LIGHT_PIN = 0;
+  87   3                              rdLight3.lightOnFlag = lightOff;
+  88   3                      }
+  89   2              }               
+  90   1      }
+  91          
+  92          void light4Control(){
+  93   1              if(rdLight4.lightOnFlag == lightOn){
+  94   2                      if(systemTick() - rdLight4.tickTime <= MODE4_STATE_TIME_1){
+  95   3                              MODE4_LIGHT_PIN = 1;
+  96   3                      }
+  97   2                      else if(systemTick() - rdLight4.tickTime <= MODE4_STATE_TIME_2){
+  98   3                              MODE4_LIGHT_PIN = 0;
+  99   3                      }
+ 100   2                      else if(systemTick() - rdLight4.tickTime <= MODE4_STATE_TIME_3){
+ 101   3                              MODE4_LIGHT_PIN = 1;
+ 102   3                      }
+ 103   2                      else if(systemTick() - rdLight4.tickTime > MODE4_STATE_TIME_3){
+ 104   3                              MODE4_LIGHT_PIN = 0;
+ 105   3                              rdLight4.lightOnFlag = lightOff;
+ 106   3                      }
+ 107   2              }                       
+ 108   1      }
+ 109          
+ 110          void light5Control(){
+ 111   1              if(rdLight5.lightOnFlag == lightOn){
+ 112   2                      if(systemTick() - rdLight5.tickTime <= MODE5_STATE_TIME_1){
+ 113   3                              MODE5_LIGHT_PIN = 1;
+ 114   3                      }
+ 115   2                      else if(systemTick() - rdLight5.tickTime <= MODE5_STATE_TIME_2){
+ 116   3                              MODE5_LIGHT_PIN = 0;
+C51 COMPILER V9.01   RD_CONTROL                                                            05/13/2022 11:00:31 PAGE 3   
+
+ 117   3                      }
+ 118   2                      else if(systemTick() - rdLight5.tickTime <= MODE5_STATE_TIME_3){
+ 119   3                              MODE5_LIGHT_PIN = 1;
+ 120   3                      }
+ 121   2                      else if(systemTick() - rdLight5.tickTime > MODE5_STATE_TIME_3){
+ 122   3                              MODE5_LIGHT_PIN = 0;
+ 123   3                              rdLight5.lightOnFlag = lightOff;
+ 124   3                      }
+ 125   2              }                       
+ 126   1      }
+ 127          
+ 128          
+ 129          #define TIME_ONE_TICK   1000            //MS
+ 130          unsigned long systemTick(){
+ 131   1              return  (unsigned long)((float)(timeLine) / TIME_ONE_TICK * (65.536));
+ 132   1      }
+ 133          
+ 134          /***********************************************************************************
+ 135          Function:       void InitPort()
+ 136          Description:    Initialize IO Port
+ 137          Input:   
+ 138          Output:                 
+ 139          *************************************************************************************/
+ 140          void InitPort(void)
+ 141          {
+ 142   1              //      PORT_SetP3QuasiBi(BIT4);                // set P30,P31,P33,P34,P35 as Quasi-Bidirectional
+ 143   1              PORT_SetP1PushPull(BIT0|BIT1|BIT5|BIT6|BIT7);           
+ 144   1      }
+ 145          
+ 146          
+ 147          void DelayXus(u8 xUs)
+ 148          {
+ 149   1              while(xUs!=0)
+ 150   1              {
+ 151   2      #if (MCU_CPUCLK>=11059200)
+ 152   2                      _nop_();
+ 153   2      #endif
+ 154   2      #if (MCU_CPUCLK>=14745600)
+                              _nop_();
+                              _nop_();
+                              _nop_();
+                              _nop_();
+              #endif
+ 160   2      #if (MCU_CPUCLK>=16000000)
+                              _nop_();
+              #endif
+ 163   2      
+ 164   2      #if (MCU_CPUCLK>=22118400)
+                              _nop_();
+                              _nop_();
+                              _nop_();
+                              _nop_();
+                              _nop_();
+                              _nop_();
+              #endif
+ 172   2      #if (MCU_CPUCLK>=24000000)
+                              _nop_();
+                              _nop_();
+              #endif          
+ 176   2      #if (MCU_CPUCLK>=29491200)
+                              _nop_();
+                              _nop_();
+C51 COMPILER V9.01   RD_CONTROL                                                            05/13/2022 11:00:31 PAGE 4   
+
+                              _nop_();
+                              _nop_();
+                              _nop_();
+                              _nop_();
+              #endif
+ 184   2      #if (MCU_CPUCLK>=32000000)
+                              _nop_();
+                              _nop_();
+              #endif
+ 188   2      
+ 189   2                      xUs--;
+ 190   2              }
+ 191   1      }
+ 192          
+ 193          
+ 194          void DelayXms(u16 xMs)
+ 195          {
+ 196   1              while(xMs!=0)
+ 197   1              {
+ 198   2                      CLRWDT();
+ 199   2                      DelayXus(200);
+ 200   2                      DelayXus(200);
+ 201   2                      DelayXus(200);
+ 202   2                      DelayXus(200);
+ 203   2                      DelayXus(200);
+ 204   2                      xMs--;
+ 205   2                      
+ 206   2              }
+ 207   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1031    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     25    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
